@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append('location', locationInput.value);
 
         try {
-            const response = await fetch('<Azure_Functions_URI>/media', {
+            const response = await fetch('https://touristfunctionapi.azurewebsites.net/api/TouristAttractionMedia', {
                 method: 'POST',
                 body: formData
             });
