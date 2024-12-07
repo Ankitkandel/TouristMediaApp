@@ -41,6 +41,83 @@
         <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
     </footer>
 
+    <!-- Add JavaScript at the end of the body -->
+    <script>
+        // Handle the form submission to upload a file
+        document.getElementById('uploadForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            const mediaFile = document.getElementById('mediaFile').files[0];
+            const location = document.getElementById('location').value;
+
+            formData.append('mediaFile', mediaFile);
+            formData.append('location', location);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    loadGallery(); // Reload the gallery
+                }
+            })
+            .catch(error => console.error('Error uploading media:', error));
+        });
+
+        // Function to load and display the media gallery
+        function loadGallery() {
+            fetch('/gallery')
+                .then(response => response.json())
+                .then(data => {
+                    const galleryGrid = document.getElementById('galleryGrid');
+                    galleryGrid.innerHTML = ''; // Clear previous content
+
+                    data.forEach(media => {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = media.url;
+                        imgElement.alt = media.name;
+                        imgElement.classList.add('gallery-item');
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.onclick = () => deleteMedia(media.name);
+
+                        const mediaItem = document.createElement('div');
+                        mediaItem.classList.add('media-item');
+                        mediaItem.appendChild(imgElement);
+                        mediaItem.appendChild(deleteButton);
+
+                        galleryGrid.appendChild(mediaItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching gallery:', error));
+        }
+
+        // Function to delete media
+        function deleteMedia(blobName) {
+            fetch(`/delete/${blobName}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    loadGallery(); // Reload the gallery after deletion
+                }
+            })
+            .catch(error => console.error('Error deleting media:', error));
+        }
+
+        // Load the gallery when the page is loaded
+        loadGallery();
+    </script>
+
+
+
     <script src="app.js"></script>
 </body>
 
