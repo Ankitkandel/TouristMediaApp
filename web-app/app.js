@@ -1,9 +1,13 @@
 document.getElementById("uploadForm").addEventListener("submit", async function (event) {
     event.preventDefault();  // Prevent the form from submitting the traditional way
+    console.log("Form submitted");
 
     const formData = new FormData();
     const mediaFile = document.getElementById("mediaFile").files[0];
     const location = document.getElementById("location").value;
+
+    console.log("mediaFile:", mediaFile);
+    console.log("location:", location);
 
     // Check if file and location are provided
     if (!mediaFile || !location) {
@@ -16,24 +20,21 @@ document.getElementById("uploadForm").addEventListener("submit", async function 
     formData.append("location", location);
 
     try {
-        // Replace with your Azure Function URL
-        const functionUrl = "https://<your-function-app-name>.azurewebsites.net/api/TouristAttractionMedia";  // Replace with correct URL
+        const functionUrl = "https://touristfunctionapi.azurewebsites.net/api/TouristAttractionMedia";  // Replace with correct URL
+        console.log("Sending request to:", functionUrl);
 
-        // Send POST request to Azure Function
         const response = await fetch(functionUrl, {
             method: "POST",
             body: formData,
         });
 
         const result = await response.json();
+        console.log("Response from Azure Function:", result);
 
         if (response.ok) {
-            // Success
             alert("File uploaded successfully.");
-            console.log(result.message);
             fetchGallery();  // Reload gallery
         } else {
-            // Error
             alert("Error uploading file: " + result.message);
         }
     } catch (error) {
@@ -41,32 +42,3 @@ document.getElementById("uploadForm").addEventListener("submit", async function 
         alert("Failed to upload file.");
     }
 });
-
-// Function to fetch gallery (to display uploaded images)
-async function fetchGallery() {
-    try {
-        const functionUrl = "https://<your-function-app-name>.azurewebsites.net/api/TouristAttractionMedia";  // Replace with correct URL
-        const response = await fetch(functionUrl);
-        const data = await response.json();
-
-        if (response.ok) {
-            const galleryGrid = document.getElementById("galleryGrid");
-            galleryGrid.innerHTML = "";  // Clear previous gallery items
-
-            data.forEach((blob) => {
-                const imgElement = document.createElement("img");
-                imgElement.src = blob.url;
-                imgElement.alt = blob.name;
-                imgElement.style.width = "100%";
-                galleryGrid.appendChild(imgElement);
-            });
-        } else {
-            alert("Error fetching gallery");
-        }
-    } catch (error) {
-        console.error("Error fetching gallery:", error);
-    }
-}
-
-// Load gallery when the page is loaded
-window.onload = fetchGallery;
