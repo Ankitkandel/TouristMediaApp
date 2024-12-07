@@ -1,111 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tourist Attraction Media Showcase</title>
-    <style>
-        /* Simple CSS for styling */
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .gallery { display: flex; flex-wrap: wrap; gap: 15px; }
-        .image-item { width: 200px; text-align: center; }
-        img { width: 100%; height: auto; }
-    </style>
+    <title>Tourist Attraction Media Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
 </head>
+
 <body>
-
-    <h1>Tourist Attraction Media Showcase</h1>
-
-    <!-- File upload section -->
-    <div>
-        <h2>Upload Media File</h2>
-        <input type="file" id="mediaFile" />
-        <input type="text" id="location" placeholder="Enter location" />
-        <button onclick="uploadFile()">Upload</button>
-    </div>
-
-    <hr />
-
-    <!-- Gallery display -->
-    <div>
-        <h2>Gallery</h2>
-        <div class="gallery" id="gallery">
-            <!-- Media files will be displayed here -->
+    <header>
+        <div class="container">
+            <h1>Explore & Share Tourist Attractions</h1>
+            <p>Upload and discover breathtaking tourist destinations worldwide.</p>
         </div>
-    </div>
+    </header>
 
-    <script>
-        // Azure Function API URL
-        const functionUrl = 'https://touristfunctionapi.azurewebsites.net/api/TouristAttractionMedia';
+    <main>
+        <div class="upload-section">
+            <h2>Upload Your Experience</h2>
+            <form id="uploadForm">
+                <label for="mediaFile">Select Image:</label>
+                <input type="file" id="mediaFile" accept="image/*" required>
 
-        // Upload Media Function
-        async function uploadFile() {
-            const fileInput = document.getElementById('mediaFile');
-            const locationInput = document.getElementById('location');
+                <label for="location">Location:</label>
+                <input type="text" id="location" placeholder="Enter location name" required>
 
-            const formData = new FormData();
-            formData.append('mediaFile', fileInput.files[0]);
-            formData.append('location', locationInput.value);
+                <button type="submit" class="btn">Upload</button>
+            </form>
+        </div>
 
-            try {
-                const response = await fetch(functionUrl, {
-                    method: 'POST',
-                    body: formData
-                });
+        <div id="mediaGallery" class="gallery">
+            <h2>Gallery</h2>
+            <div class="grid" id="galleryGrid"></div>
+        </div>
+    </main>
 
-                const result = await response.json();
-                if (response.ok) {
-                    alert('File uploaded successfully!');
-                    fetchGallery(); // Refresh the gallery
-                } else {
-                    alert(`Error: ${result.body}`);
-                }
-            } catch (error) {
-                console.error('Error uploading file:', error);
-            }
-        }
+    <footer>
+        <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
+    </footer>
 
-        // Fetch Gallery
-        async function fetchGallery() {
-            try {
-                const response = await fetch(functionUrl, { method: 'GET' });
-                const mediaFiles = await response.json();
-
-                const galleryContainer = document.getElementById('gallery');
-                galleryContainer.innerHTML = ''; // Clear the gallery
-
-                mediaFiles.forEach(media => {
-                    const mediaElement = document.createElement('div');
-                    mediaElement.className = 'image-item';
-                    mediaElement.innerHTML = `
-                        <img src="${media.url}" alt="${media.name}" />
-                        <button onclick="deleteFile('${media.name}')">Delete</button>
-                    `;
-                    galleryContainer.appendChild(mediaElement);
-                });
-            } catch (error) {
-                console.error('Error fetching gallery:', error);
-            }
-        }
-
-        // Delete Media File
-        async function deleteFile(blobName) {
-            const response = await fetch(`${functionUrl}?blobName=${blobName}`, { method: 'DELETE' });
-
-            const result = await response.json();
-            if (response.ok) {
-                alert(`Deleted file: ${blobName}`);
-                fetchGallery(); // Refresh the gallery
-            } else {
-                alert(`Error: ${result.body}`);
-            }
-        }
-
-        // Load the gallery initially
-        fetchGallery();
-    </script>
-
-  
+    <script src="app.js"></script>
 </body>
 
 </html>
