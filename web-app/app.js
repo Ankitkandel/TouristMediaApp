@@ -1,44 +1,37 @@
-document.getElementById("uploadForm").addEventListener("submit", async function (event) {
-    event.preventDefault();  // Prevent the form from submitting the traditional way
-    console.log("Form submitted");
+document.getElementById('uploadForm').addEventListener('submit', async function (event) {
+    event.preventDefault();  // Prevent the form from reloading the page
+    
+    // Get the file name and content from the form inputs
+    const fileName = document.getElementById('fileName').value;
+    const fileContent = document.getElementById('fileContent').value;
 
-    const formData = new FormData();
-    const mediaFile = document.getElementById("mediaFile").files[0];
-    const location = document.getElementById("location").value;
-
-    console.log("mediaFile:", mediaFile);
-    console.log("location:", location);
-
-    // Check if file and location are provided
-    if (!mediaFile || !location) {
-        alert("Please provide both the file and the location.");
+    // Check if both fields are filled
+    if (!fileName || !fileContent) {
+        document.getElementById('responseMessage').innerHTML = 'Please provide both a file name and file content.';
         return;
     }
 
-    // Append data to formData
-    formData.append("mediaFile", mediaFile);
-    formData.append("location", location);
-
     try {
-        const functionUrl = "https://touristmediaapi.azurewebsites.net/api/upload?";  // Replace with correct URL
-        console.log("Sending request to:", functionUrl);
-
-        const response = await fetch(functionUrl, {
-            method: "POST",
-            body: formData,
+        // Make a POST request to your Azure Function
+        const response = await fetch('https://touristmediaapi.azurewebsites.net/api/upload?code=<Your-Master-Host-Key>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fileName: fileName,
+                fileContent: fileContent
+            })
         });
 
-        const result = await response.json();
-        console.log("Response from Azure Function:", result);
+        const data = await response.json();
 
         if (response.ok) {
-            alert("File uploaded successfully.");
-            fetchGallery();  // Reload gallery
+            document.getElementById('responseMessage').innerHTML = `Success: ${data.message}`;
         } else {
-            alert("Error uploading file: " + result.message);
+            document.getElementById('responseMessage').innerHTML = `Error: ${data.error}`;
         }
     } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("Failed to upload file.");
+        document.getElementById('responseMessage').innerHTML = `Error: ${error.message}`;
     }
 });
