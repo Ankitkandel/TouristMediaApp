@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload File to Azure Blob Storage</title>
+    <title>Upload Media to Azure Blob Storage</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div class="container">
-        <h1>Upload File to Azure Blob Storage</h1>
-        <form id="uploadForm">
-            <label for="fileName">File Name:</label>
+        <h1>Upload Media to Azure Blob Storage</h1>
+        
+        <!-- Form for uploading file -->
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="fileName">File Name (including extension):</label>
             <input type="text" id="fileName" name="fileName" required>
-
-            <label for="fileContent">File Content:</label>
-            <textarea id="fileContent" name="fileContent" required></textarea>
-
+            
+            <label for="fileContent">Select Media File:</label>
+            <input type="file" id="fileContent" name="fileContent" accept="image/*,video/*,audio/*,document/*" required>
+            
             <button type="submit">Upload File</button>
         </form>
+
         <div id="responseMessage"></div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
