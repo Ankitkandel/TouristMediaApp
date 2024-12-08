@@ -20,7 +20,7 @@ document.getElementById("uploadForm").addEventListener("submit", async function 
     formData.append("location", location);
 
     try {
-        const functionUrl = "https://touristfunctionapi.azurewebsites.net/api/TouristAttractionMedia";  // Replace with correct URL
+        const functionUrl = "https://touristmediaapi.azurewebsites.net/api/upload?";  // Replace with correct URL
         console.log("Sending request to:", functionUrl);
 
         const response = await fetch(functionUrl, {
