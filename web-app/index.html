@@ -1,30 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Media to Azure Blob Storage</title>
+    <title>Tourist Attraction Media Platform</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
 </head>
+
 <body>
+    <header>
+        <div class="container">
+            <h1>Explore & Share Tourist Attractions</h1>
+            <p>Upload and discover breathtaking tourist destinations worldwide.</p>
+        </div>
+    </header>
 
-    <div class="container">
-        <h1>Upload Media to Azure Blob Storage</h1>
-        
-        <!-- Form for uploading file -->
-        <form id="uploadForm" enctype="multipart/form-data">
-            <label for="fileName">File Name (including extension):</label>
-            <input type="text" id="fileName" name="fileName" required>
-            
-            <label for="fileContent">Select Media File:</label>
-            <input type="file" id="fileContent" name="fileContent" accept="image/*,video/*,audio/*,document/*" required>
-            
-            <button type="submit">Upload File</button>
-        </form>
+    <main>
+        <div class="upload-section">
+            <h2>Upload Your Experience</h2>
+            <form id="uploadForm">
+                <label for="mediaFile">Select Image:</label>
+                <input type="file" id="mediaFile" accept="image/*" required>
 
-        <div id="responseMessage"></div>
-    </div>
+                <label for="location">Location:</label>
+                <input type="text" id="location" placeholder="Enter location name" required>
 
-    <script src="script.js"></script>
+                <button type="submit" class="btn">Upload</button>
+            </form>
+        </div>
+
+        <div id="mediaGallery" class="gallery">
+            <h2>Gallery</h2>
+            <div class="grid" id="galleryGrid"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
+
 </html>
