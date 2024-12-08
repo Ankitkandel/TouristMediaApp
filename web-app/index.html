@@ -1,47 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tourist Attraction Media Platform</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico">
+  <title>Upload Image</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-
 <body>
-    <header>
-        <div class="container">
-            <h1>Explore & Share Tourist Attractions</h1>
-            <p>Upload and discover breathtaking tourist destinations worldwide.</p>
-        </div>
-    </header>
+  <h2>Upload Image</h2>
+  <input type="file" id="imageInput">
+  <button id="uploadButton">Upload</button>
+  <div id="message"></div>
 
-    <main>
-        <div class="upload-section">
-            <h2>Upload Your Experience</h2>
-            <form id="uploadForm">
-                <label for="mediaFile">Select Image:</label>
-                <input type="file" id="mediaFile" accept="image/*" required>
+  <script>
+    // Logic App HTTP URL
+    var logicAppUrl = "https://imageapplogic.azurewebsites.net:443/api/UploadWorkflow/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=aF1HY8DkVWfQQTWm8GyP1bAOFSc-Nx5gfY2ysgeFjUA";
 
-                <label for="location">Location:</label>
-                <input type="text" id="location" placeholder="Enter location name" required>
+    // Event listener for the upload button
+    document.getElementById("uploadButton").onclick = function() {
+      var fileInput = document.getElementById("imageInput");
+      var file = fileInput.files[0];
+      if (file) {
+        // Convert image to Base64
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          var fileContent = reader.result.split(',')[1]; // Get Base64 content (remove data URI part)
+          
+          // Prepare data to send to Logic App
+          var data = {
+            fileName: file.name,
+            fileContent: fileContent
+          };
 
-                <button type="submit" class="btn">Upload</button>
-            </form>
-        </div>
-
-        <div id="mediaGallery" class="gallery">
-            <h2>Gallery</h2>
-            <div class="grid" id="galleryGrid"></div>
-        </div>
-    </main>
-
-    <footer>
-        <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
-    </footer>
-
-    <script src="app.js"></script>
+          // Send data to Logic App using AJAX
+          $.ajax({
+            url: logicAppUrl, // Replace with your Logic App HTTP URL
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data), // Sending the image and metadata
+            success: function(response) {
+              document.getElementById("message").innerHTML = "<strong>Success:</strong> Image uploaded!";
+            },
+            error: function(xhr, status, error) {
+              document.getElementById("message").innerHTML = "<strong>Error:</strong> There was an issue uploading the image.";
+            }
+          });
+        };
+        reader.readAsDataURL(file); // Read file as Base64
+      } else {
+        document.getElementById("message").innerHTML = "<strong>Error:</strong> No file selected!";
+      }
+    };
+  </script>
 </body>
-
 </html>
