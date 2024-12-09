@@ -116,16 +116,7 @@
                 width: 100%;
                 margin: 10px 0;
             }
-	 #imageList {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        #imageList img {
-            max-width: 200px;
-            height: auto;
-            border-radius: 8px;
-        }
+	 
         }
     </style>
 </head>
@@ -144,8 +135,8 @@
   <button id="uploadButton">Upload</button>
   <div id="message"></div>
 <h1>Image Fetcher</h1>
-    <button id="fetchImages">Fetch Images</button>
-    <div id="imageList"></div>
+   <button id="fetchImages">Fetch Images</button>
+   <div id="imageList"></div>
 
 <footer>
         <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
@@ -193,28 +184,23 @@
     };
   </script>
 <script>
-        // Add event listener to the button
         document.getElementById("fetchImages").addEventListener("click", () => {
-            // Call the Logic App endpoint to fetch images
-            fetch("https://imageapplogic.azurewebsites.net:443/api/imageretrievalLogicApp/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=_dL_0jTgIukmHu6jcZ5PC8uewcjQ6OHzKZhSPfCACGM")")
-                .then(response => response.json()) // Convert response to JSON
+            fetch("https://imageapplogic.azurewebsites.net:443/api/imageretrievalLogicApp/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=_dL_0jTgIukmHu6jcZ5PC8uewcjQ6OHzKZhSPfCACGM")
+                .then(response => response.json())
                 .then(data => {
-                    console.log("Data received from Logic App:", data); // Log the data for debugging
-
                     const imageList = document.getElementById("imageList");
                     imageList.innerHTML = ""; // Clear previous images
 
                     // Check if there are blobs (images)
-                    if (data && data.blobs && Array.isArray(data.blobs) && data.blobs.length > 0) {
-                        // Loop through each blob and display it
+                    if (data.blobs && data.blobs.length > 0) {
                         data.blobs.forEach(blob => {
                             const img = document.createElement("img");
-                            img.src = blob.url; // Assuming the blob contains a URL field
-                            img.alt = blob.name; // Use the blob name as alt text
+                            img.src = blob.url;
+                            img.alt = blob.name;
                             imageList.appendChild(img); // Add the image to the list
                         });
                     } else {
-                        imageList.innerHTML = "<p>No images found.</p>"; // If no images are found
+                        imageList.innerHTML = "<p>No images found.</p>";
                     }
                 })
                 .catch(error => {
@@ -223,6 +209,6 @@
                         "<p>Error fetching images. Check console for details.</p>";
                 });
         });
-    </script>	
+    </script>
 </body>
 </html>
