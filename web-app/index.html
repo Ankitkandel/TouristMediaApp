@@ -137,6 +137,17 @@
   <div class="image-container" id="image-container">
    <h2>images </h2> 
     </div>
+	<table id="imagesTable">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>File Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Images will be populated here -->
+        </tbody>
+    </table>
 <footer>
         <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
     </footer>
@@ -293,5 +304,32 @@
         // Call the function to fetch and display images when the page loads
         window.onload = fetchImages;
     </script>
+    <script>
+        // Function to fetch images from the PHP script
+        fetch('https://fetcjhimages-adg5e5fsddggd4f9.westeurope-01.azurewebsites.net/')
+            .then(response => response.json())
+            .then(images => {
+                const tableBody = document.getElementById('imagesTable').getElementsByTagName('tbody')[0];
+                
+                images.forEach(image => {
+                    // Create a new row in the table
+                    const row = tableBody.insertRow();
+                    
+                    // Create cells for the image and the file name
+                    const cellImage = row.insertCell(0);
+                    const cellName = row.insertCell(1);
+                    
+                    // Add the image and name
+                    const imgElement = document.createElement('img');
+                    imgElement.src = image.url; // Image URL from the JSON response
+                    imgElement.alt = image.name;
+                    
+                    cellImage.appendChild(imgElement);
+                    cellName.textContent = image.name;
+                });
+            })
+            .catch(error => console.error('Error fetching images:', error));
+    </script>
+
 </body>
 </html>
