@@ -162,6 +162,15 @@
                 <?php include('process.php'); ?>
             </tbody>
         </table>
+	<form action="process.php" method="POST" enctype="multipart/form-data">
+            <label for="imageName">Image Name:</label><br>
+            <input type="text" name="imageName" required><br><br>
+
+            <label for="image">Choose Image:</label><br>
+            <input type="file" name="image" required><br><br>
+
+            <input type="submit" name="upload" value="Upload Image">
+        </form>
 <footer>
         <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
     </footer>
