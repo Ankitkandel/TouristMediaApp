@@ -116,6 +116,16 @@
                 width: 100%;
                 margin: 10px 0;
             }
+	 #imageList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #imageList img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
         }
     </style>
 </head>
@@ -133,8 +143,9 @@
   <input type="file" id="imageInput">
   <button id="uploadButton">Upload</button>
   <div id="message"></div>
-	<button id="fetchImages">Fetch Images</button>
-<div id="imageList"></div>
+<h1>Image Fetcher</h1>
+    <button id="fetchImages">Fetch Images</button>
+    <div id="imageList"></div>
 
 <footer>
         <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
@@ -181,26 +192,35 @@
       }
     };
   </script>
- <script>
-document.getElementById("fetchImages").addEventListener("click", () => {
-    fetch("https://https://imageapplogic.azurewebsites.net:443/api/imageretrievalLogicApp/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=_dL_0jTgIukmHu6jcZ5PC8uewcjQ6OHzKZhSPfCACGM")
-        .then(response => response.json())
-        .then(data => {
-            const imageList = document.getElementById("imageList");
-            imageList.innerHTML = ""; // Clear previous results
+<script>
+        // Add event listener to the button
+        document.getElementById("fetchImages").addEventListener("click", () => {
+            // Call the Logic App endpoint to fetch images
+            fetch("https://imageapplogic.azurewebsites.net:443/api/imageretrievalLogicApp/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=_dL_0jTgIukmHu6jcZ5PC8uewcjQ6OHzKZhSPfCACGM")
+                .then(response => response.json()) // Convert response to JSON
+                .then(data => {
+                    const imageList = document.getElementById("imageList");
+                    imageList.innerHTML = ""; // Clear previous images
 
-            data.blobs.forEach(blob => {
-                const img = document.createElement("img");
-                img.src = blob.url; // Ensure blob URLs are accessible
-                img.alt = blob.name;
-                img.style.width = "200px";
-                img.style.margin = "10px";
-
-                imageList.appendChild(img);
-            });
-        })
-        .catch(error => console.error("Error fetching images:", error));
-});
-</script>	
+                    // Check if there are blobs (images)
+                    if (data.blobs && data.blobs.length > 0) {
+                        // Loop through each blob and display it
+                        data.blobs.forEach(blob => {
+                            const img = document.createElement("img");
+                            img.src = blob.url; // Use the URL from the blob
+                            img.alt = blob.name; // Use the blob name as alt text
+                            imageList.appendChild(img); // Add the image to the list
+                        });
+                    } else {
+                        imageList.innerHTML = "<p>No images found.</p>"; // If no images are found
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching images:", error);
+                    document.getElementById("imageList").innerHTML =
+                        "<p>Error fetching images. Check console for details.</p>";
+                });
+        });
+    </script>	
 </body>
 </html>
