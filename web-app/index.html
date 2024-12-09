@@ -134,43 +134,8 @@
   <input type="file" id="imageInput">
   <button id="uploadButton">Upload</button>
   <div id="message"></div>
-<h1>Image Fetcher</h1>
-   <button id="fetchImages">Fetch Images</button>
-   <div id="imageList"></div>
-<div class="container">
-        <h1>Asset List</h1>
-        <ul id="asset-list" class="asset-list">
-            <!-- List of assets will be displayed here -->
-        </ul>
-    </div>	
-<div class="container">
-        <h1>Images Table with CRUD Operations</h1>
+	
 
-        <!-- Image Table -->
-        <table id="imagesTable">
-            <thead>
-                <tr>
-                    <th>Image Name</th>
-                    <th>Image</th>
-                    <th>Upload Date</th>
-                    <th>Update</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- This section will be filled by the PHP script -->
-                <?php include('process.php'); ?>
-            </tbody>
-        </table>
-	<form action="process.php" method="POST" enctype="multipart/form-data">
-            <label for="imageName">Image Name:</label><br>
-            <input type="text" name="imageName" required><br><br>
-
-            <label for="image">Choose Image:</label><br>
-            <input type="file" name="image" required><br><br>
-
-            <input type="submit" name="upload" value="Upload Image">
-        </form>
 <footer>
         <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
     </footer>
