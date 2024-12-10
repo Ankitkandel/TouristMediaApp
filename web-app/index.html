@@ -145,6 +145,7 @@
             <h3>Image Details</h3>
             <img id="modalImage" src="" alt="Selected Image">
             <p><strong>Name:</strong> <span id="imageName"></span></p>
+            <p><strong>Uploaded On:</strong> <span id="uploadDate"></span></p>
             <h4>Edit Image Details</h4>
             <input type="text" id="editImageName">
             <button id="saveChanges">Save Changes</button>
@@ -167,7 +168,8 @@
                     const fileContent = reader.result.split(',')[1];
                     const data = {
                         fileName: file.name,
-                        fileContent: fileContent
+                        fileContent: fileContent,
+                        uploadDate: new Date().toISOString()
                     };
 
                     fetch(logicAppUploadUrl, {
@@ -210,6 +212,7 @@
         function openModal(image) {
             document.getElementById('modalImage').src = image.url;
             document.getElementById('imageName').textContent = image.name;
+            document.getElementById('uploadDate').textContent = new Date(image.uploadDate).toLocaleString();
             document.getElementById('editImageName').value = image.name;
             document.getElementById('imageModal').style.display = 'block';
 
