@@ -1,13 +1,17 @@
 <!DOCTYPE html>
+<html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Management Platform</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Tourist Attraction Media Platform</title>
+     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico">
-    <style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<style>
+        /* General Body Style */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -15,6 +19,7 @@
             background-color: #f4f4f4;
         }
 
+        /* Header Style */
         header {
             background-color: #0044cc;
             color: white;
@@ -23,14 +28,39 @@
         }
 
         header h1 {
+            font-size: 2.5em;
             margin: 0;
         }
 
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        /* Container for Header Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Main Content Style */
+        h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* Upload Section */
         #imageInput {
             display: block;
             margin: 20px auto;
             padding: 10px;
             font-size: 1em;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         #uploadButton {
@@ -40,6 +70,8 @@
             background-color: #008CBA;
             color: white;
             border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
             cursor: pointer;
         }
 
@@ -47,11 +79,59 @@
             background-color: #006f8e;
         }
 
+        /* Message After Upload */
         #message {
             text-align: center;
+            font-size: 1.2em;
             margin-top: 20px;
         }
 
+        /* Footer Style */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            #imageInput, #uploadButton {
+                width: 100%;
+                margin: 10px 0;
+            }
+	 
+        }
+		/* Header Style */
+        header {
+            background-color: #0044cc;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h3 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        /* Gallery Styles */
         .gallery {
             display: flex;
             flex-wrap: wrap;
@@ -61,10 +141,9 @@
         }
 
         .gallery img {
-            width: 200px;
-            height: 150px;
+            width: 300px;
+            height: 200px;
             object-fit: cover;
-            cursor: pointer;
             border: 2px solid #ddd;
             border-radius: 5px;
             transition: transform 0.3s;
@@ -75,177 +154,230 @@
             border-color: #0044cc;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            max-width: 500px;
-            border-radius: 8px;
-        }
-
-        .modal-content {
-            text-align: center;
-        }
-
-        .modal img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .delete-button {
-            margin-top: 20px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 1.5em;
-            cursor: pointer;
-        }
     </style>
 </head>
+<body>
 
 <body>
     <header>
-        <h1>Image Management Platform</h1>
-        <p>Upload, view, edit, and delete your images easily.</p>
-    </header>
-
-    <main>
-        <section>
-            <input type="file" id="imageInput">
-            <button id="uploadButton">Upload</button>
-            <div id="message"></div>
-        </section>
-
-        <section class="gallery" id="photoGallery"></section>
-    </main>
-
-    <div id="imageModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeModal">&times;</span>
-            <h3>Image Details</h3>
-            <img id="modalImage" src="" alt="Selected Image">
-            <p><strong>Name:</strong> <span id="imageName"></span></p>
-            <p><strong>Uploaded On:</strong> <span id="uploadDate"></span></p>
-            <h4>Edit Image Details</h4>
-            <input type="text" id="editImageName">
-            <button id="saveChanges">Save Changes</button>
-            <button id="deleteImage" class="delete-button">Delete Image</button>
+        <div class="container">
+            <h1>Explore & Share Tourist Attractions</h1>
+            <p>Upload and discover breathtaking tourist destinations worldwide.</p>
         </div>
+    </header>
+	<h2>Upload Your Experience</h2>
+  <h2>Upload Image</h2>
+  <input type="file" id="imageInput">
+  <button id="uploadButton">Upload</button>
+  <div id="message"></div>
+  <div class="image-container" id="image-container">
+   <header>
+        <h3>Photo Gallery</h3>
+    </header>
     </div>
+	<div class="gallery" id="photoGallery">
+        <!-- Photos will be dynamically inserted here -->
+    </div>
+<footer>
+        <p>Name: ANKIT | Student Number: B00860266 | 2024 Tourist Attraction Media Platform | All Rights Reserved</p>
+    </footer>
 
-    <script>
-        const logicAppUploadUrl = 'YOUR_UPLOAD_LOGIC_APP_URL';
-        const logicAppFetchUrl = 'YOUR_FETCH_LOGIC_APP_URL';
-        const logicAppDeleteUrl = 'YOUR_DELETE_LOGIC_APP_URL';
+    <script src="app.js"></script>
+  <script>
+    // Logic App HTTP URL
+   var logicAppUrl = "https://imageapplogic.azurewebsites.net:443/api/UploadImageLogicApp/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=NuznFzydAmS8Omuyap0F7KEvLkh4E3tlPxsaNZNFozs";
 
-        document.getElementById('uploadButton').onclick = function () {
-            const fileInput = document.getElementById('imageInput');
-            const file = fileInput.files[0];
+	  // Event listener for the upload button
+    document.getElementById("uploadButton").onclick = function() {
+      var fileInput = document.getElementById("imageInput");
+      var file = fileInput.files[0];
+      if (file) {
+        // Convert image to Base64
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          var fileContent = reader.result.split(',')[1]; // Get Base64 content (remove data URI part)
+          
+          // Prepare data to send to Logic App
+          var data = {
+            fileName: file.name,
+            fileContent: fileContent
+          };
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onloadend = function () {
-                    const fileContent = reader.result.split(',')[1];
-                    const data = {
-                        fileName: file.name,
-                        fileContent: fileContent,
-                        uploadDate: new Date().toISOString()
-                    };
-
-                    fetch(logicAppUploadUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                document.getElementById('message').textContent = 'Image uploaded successfully!';
-                                fetchImages();
-                            } else {
-                                document.getElementById('message').textContent = 'Failed to upload image.';
-                            }
-                        });
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert('Please select an image to upload.');
+          // Send data to Logic App using AJAX
+          $.ajax({
+            url: logicAppUrl, // Replace with your Logic App HTTP URL
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data), // Sending the image and metadata
+            success: function(response) {
+              document.getElementById("message").innerHTML = "<strong>Success:</strong> Image uploaded!";
+            },
+            error: function(xhr, status, error) {
+              document.getElementById("message").innerHTML = "<strong>Error:</strong> There was an issue uploading the image.";
             }
+          });
         };
-
-        function fetchImages() {
-            fetch(logicAppFetchUrl)
+        reader.readAsDataURL(file); // Read file as Base64
+      } else {
+        document.getElementById("message").innerHTML = "<strong>Error:</strong> No file selected!";
+      }
+    };
+  </script>
+<script>
+        document.getElementById("fetchImages").addEventListener("click", () => {
+            fetch("https://imageapplogic.azurewebsites.net:443/api/RAI/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=i-VviR42YFGaz4iIzXG1U8yfUOfZrwVP3JUhDBTL4sk")
                 .then(response => response.json())
-                .then(images => {
-                    const gallery = document.getElementById('photoGallery');
-                    gallery.innerHTML = '';
+                .then(data => {
+                    const imageList = document.getElementById("imageList");
+                    imageList.innerHTML = ""; // Clear previous images
 
-                    images.forEach(image => {
-                        const img = document.createElement('img');
-                        img.src = image.url;
-                        img.alt = image.name;
-                        img.onclick = () => openModal(image);
-                        gallery.appendChild(img);
-                    });
+                    // Check if there are blobs (images)
+                    if (data.blobs && data.blobs.length > 0) {
+                        data.blobs.forEach(blob => {
+                            const img = document.createElement("img");
+                            img.src = blob.url;
+                            img.alt = blob.name;
+                            imageList.appendChild(img); // Add the image to the list
+                        });
+                    } else {
+                        imageList.innerHTML = "<p>No images found.</p>";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching images:", error);
+                    document.getElementById("imageList").innerHTML =
+                        "<p>Error fetching images. Check console for details.</p>";
+                });
+        });
+    </script>
+     <script>
+        // URL of the Logic App endpoint
+        const logicAppUrl = 'https://imageapplogic.azurewebsites.net:443/api/RAI/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=i-VviR42YFGaz4iIzXG1U8yfUOfZrwVP3JUhDBTL4sk';  // Replace with your Logic App's HTTP trigger URL
+
+        // Function to fetch assets from the Logic App
+        async function fetchAssets() {
+            try {
+                // Sending GET request to Logic App endpoint
+                const response = await fetch(logicAppUrl, {
+                    method: 'GET',
+                });
+
+                // Check if the response is successful
+                if (!response.ok) {
+                    throw new Error('Failed to fetch assets');
+                }
+
+                // Parse the response as JSON
+                const data = await response.json();
+
+                // Extract the assets from the response (assuming the Logic App returns the 'Documents' array)
+                const assets = data.Documents || [];
+
+                // Select the asset list element
+                const assetList = document.getElementById('asset-list');
+
+                // Clear previous list items
+                assetList.innerHTML = '';
+
+                // Loop through each asset and create a list item
+                assets.forEach(asset => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('asset-item');
+                    listItem.innerHTML = `
+                        <strong>Asset Name:</strong> ${asset.asset_name}<br>
+                        <strong>Asset Type:</strong> ${asset.asset_type}<br>
+                        <strong>Status:</strong> ${asset.status}
+                    `;
+                    assetList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error fetching assets:', error);
+                alert('Failed to load assets');
+            }
+        }
+
+        // Call the function to fetch and display assets
+        fetchAssets();
+    </script>
+	<script>
+        // Function to call the Logic App HTTP trigger and fetch image URLs
+        function fetchImages() {
+            // The Logic App trigger URL
+            const logicAppUrl = 'https://imageapplogic.azurewebsites.net:443/api/downloadblob/triggers/When_a_HTTP_request_is_received/invoke?api-version=2022-05-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=3gYBsJ1ErKOiqjFGgPtpQp7ikylmqA3v5sflPp9j_Zo';
+
+            // Make a GET request to trigger the Logic App
+            fetch(logicAppUrl)
+                .then(response => response.json()) // Parse the JSON response
+                .then(data => {
+                    // Assuming 'data' contains an array of image URLs
+                    displayImages(data); // Function to display images on the page
+                })
+                .catch(error => {
+                    console.error('Error fetching images:', error);
                 });
         }
 
-        function openModal(image) {
-            document.getElementById('modalImage').src = image.url;
-            document.getElementById('imageName').textContent = image.name;
-            document.getElementById('uploadDate').textContent = new Date(image.uploadDate).toLocaleString();
-            document.getElementById('editImageName').value = image.name;
-            document.getElementById('imageModal').style.display = 'block';
+        // Function to display images on the web page
+        function displayImages(images) {
+            const container = document.getElementById('image-container');
+            container.innerHTML = ''; // Clear the container before adding new images
 
-            document.getElementById('saveChanges').onclick = function () {
-                const updatedName = document.getElementById('editImageName').value;
-                fetch(`${logicAppUploadUrl}?name=${image.name}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ newName: updatedName })
-                }).then(() => {
-                    fetchImages();
-                    closeModal();
-                });
-            };
-
-            document.getElementById('deleteImage').onclick = function () {
-                fetch(`${logicAppDeleteUrl}?name=${image.name}`, {
-                    method: 'DELETE'
-                }).then(() => {
-                    fetchImages();
-                    closeModal();
-                });
-            };
+            // Loop through the images array and create <img> elements for each image URL
+            images.forEach(imageUrl => {
+                const imgElement = document.createElement('img');
+                imgElement.src = imageUrl;  // Set the source to the image URL
+                imgElement.alt = 'Azure Image'; // Add an alt text for the image
+                container.appendChild(imgElement); // Append the image to the container
+            });
         }
 
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-
-        document.getElementById('closeModal').onclick = closeModal;
-
+        // Call the function to fetch and display images when the page loads
         window.onload = fetchImages;
     </script>
-</body>
+    <script>
+        // Function to fetch images from the PHP script
+        fetch('https://fetcjhimages-adg5e5fsddggd4f9.westeurope-01.azurewebsites.net/')
+            .then(response => response.json())
+            .then(images => {
+                const tableBody = document.getElementById('imagesTable').getElementsByTagName('tbody')[0];
+                
+                images.forEach(image => {
+                    // Create a new row in the table
+                    const row = tableBody.insertRow();
+                    
+                    // Create cells for the image and the file name
+                    const cellImage = row.insertCell(0);
+                    const cellName = row.insertCell(1);
+                    
+                    // Add the image and name
+                    const imgElement = document.createElement('img');
+                    imgElement.src = image.url; // Image URL from the JSON response
+                    imgElement.alt = image.name;
+                    
+                    cellImage.appendChild(imgElement);
+                    cellName.textContent = image.name;
+                });
+            })
+            .catch(error => console.error('Error fetching images:', error));
+    </script>
+<script>
+        // Photo links array
+        const photoLinks = [
+            "https://imageappstoragee.blob.core.windows.net/images/image%202.jpg",
+            "https://imageappstoragee.blob.core.windows.net/images/image4.jpg",
+            "https://imageappstoragee.blob.core.windows.net/images/image3.jpg"
+        ];
 
+        // Select the gallery container
+        const galleryContainer = document.getElementById("photoGallery");
+
+        // Function to create and display images in the gallery
+        photoLinks.forEach(link => {
+            const imgElement = document.createElement("img");
+            imgElement.src = link;
+            imgElement.alt = "Tourist Attraction";
+            galleryContainer.appendChild(imgElement);
+        });
+    </script>
+</body>
 </html>
